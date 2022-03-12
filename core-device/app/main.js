@@ -14,7 +14,7 @@ const readSensorData = async () => {
 }
 
 async function main() {
-    logger.info(`********************Starting Core Device App********************`)
+    console.log(`********************Starting Core Device App********************`)
     readSensorData()
 }
 
