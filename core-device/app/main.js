@@ -15,7 +15,14 @@ device
     .on('connect', () => {
         console.log('Connecting to AWS  IoT Core');
         // setInterval(() => getSensorData(sendData), 3000)
+        device.subscribe('deviceid/ondemanddata');
         device.publish('deviceid/ondemanddata', JSON.stringify({ test_data: 1 }));
+    });
+
+
+device
+    .on('message', (topic, payload) => {
+        console.log('message', topic, payload.toString());
     });
 
 
