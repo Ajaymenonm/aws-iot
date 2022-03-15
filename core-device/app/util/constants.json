@@ -1,0 +1,12 @@
+{
+    "SENSOR": {
+        "TYPE": 22,
+        "PORT": 4
+    },
+    "PUB_SUB": {
+        "TOPICS": {
+            "ONDEMAND": "store/ondemand/deviceid",
+            "STREAM": "store/stream/deviceid"
+        }
+    }
+}

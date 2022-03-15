@@ -1,4 +1,4 @@
-
+const constants = require('./util/constants.json').PUB_SUB
 
 const AwsIotModule = require('./modules/awsiot')
 const awsIot = new AwsIotModule()
@@ -10,6 +10,18 @@ const initializeConnections = () => {
     sensor.init()
 }
 
+const sendOndemandData = async (payload) => {
+    [temp, humidity] = await sensor.readData()
+    // get data from esp8266
+    // aggregate and format message
+    data = {
+        "messageType": "response",
+        "deviceId": "deviceId",
+        "dht22": temp,
+        "temp": humidity
+    }
+    awsIot.publishMessage(constants.TOPICS.ONDEMAND, data)
+}
 
 async function main() {
     console.log(`********************Starting Core Device App********************`)
@@ -19,9 +31,12 @@ async function main() {
     initializeConnections()
     setInterval(async () => {
         let sensordata = await sensor.readData()
-        awsIot.publishMessage('store/deviceid/stream', sensordata)
-    }, 2000)
+        let aws = awsIot.publishMessage(constants.TOPICS.STREAM, sensordata)
+        console.log('--------aws: ', aws)
+    }, 5000)
 
 }
+
+module.exports.sendOndemandData = sendOndemandData;
 
 main().catch(console.error)

@@ -1,5 +1,8 @@
 const awsiot = require('aws-iot-device-sdk');
 
+const main = require('../main');
+const constants = require('../util/constants.json').PUB_SUB
+
 let device;
 
 class AwsIotModule {
@@ -29,19 +32,28 @@ class AwsIotModule {
 
     _subscription() {
         // Subscribing to topics
-        device.subscribe('store/deviceid/ondemand');
+        device.subscribe(constants.TOPICS.ONDEMAND);
     }
 
     publishMessage(topic, payload) {
-        device.publish(topic, JSON.stringify({ getOnDemandData: payload }));
+        //  TODO: refactor topic nomenclature
+        device.publish(topic, JSON.stringify({ getOnDemandData: payload }), { qos: 1 });
     }
 
     receiveMessage(topic, payload) {
-        console.log('message', topic, payload.toString());
+        payload = JSON.parse(payload.toString())
+        handleMessage(topic, payload)
     }
 
     _errorEvent(topic, payload) {
         console.log('Error:', topic, payload.toString());
+    }
+}
+
+const handleMessage = async (topic, payload) => {
+    if (topic == constants.TOPICS.ONDEMAND && payload.messageType == 'request') {
+        console.log('--- on demand message request received')
+        await main.sendOndemandData(payload)
     }
 }
 
