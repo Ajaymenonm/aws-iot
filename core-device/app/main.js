@@ -1,4 +1,5 @@
 const constants = require('./util/constants.json').PUB_SUB
+const datetime = require('./util/date-time')
 
 const AwsIotModule = require('./modules/awsiot')
 const awsIot = new AwsIotModule()
@@ -19,9 +20,10 @@ const gatherSensorData = async (espdata = {}) => {
     data = {
         "messageType": "response",
         "deviceId": "deviceId",
-        "dht22": temp,
-        "temp": humidity,
-        "level": 'level'
+        "humidity": humidity,
+        "temp": temp,
+        "level": 10,
+        "ts": datetime.getUTCDateTime().toString()
     }
     return JSON.stringify(data)
 }
@@ -49,7 +51,7 @@ async function main() {
     // const interval = Math.floor(Math.random() * (5 - 1) + 1)
     initializeConnections()
     setInterval(() => sendStreamData(), 5000)
-
+    setInterval(() => handleData.uploadData(), 7000)
 }
 
 module.exports.sendOndemandData = sendOndemandData;
