@@ -31,7 +31,7 @@ const sendOndemandData = async (payload) => {
     awsIot.publishMessage(constants.TOPICS.ESP8266, JSON.stringify({ 'request-data': true }))
     sensordata = await gatherSensorData()
     awsIot.publishMessage(constants.TOPICS.ONDEMAND, sensordata)
-    // write to file
+
 }
 
 // stream data to upstream
@@ -39,7 +39,7 @@ const sendStreamData = async () => {
     awsIot.publishMessage(constants.TOPICS.ESP8266, JSON.stringify({ 'request-data': true }))
     sensordata = await gatherSensorData()
     awsIot.publishMessage(constants.TOPICS.STREAM, sensordata)
-    // write to file
+    handleData.writeData(sensordata)
 }
 
 async function main() {

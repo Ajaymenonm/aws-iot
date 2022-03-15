@@ -4,18 +4,18 @@ const datetime = require('../util/date-time')
 
 class HandleData {
 
-    static FILE_DIR = '../data/'
+    static FILE_DIR = path.join(__dirname, '../data')
 
     constructor() {
         this._currentfile = datetime.getHourForUTCDate()
-        this._filepath = path.join(HandleData.FILE_DIR, this._currentfile);
+        this._filepath = path.join(HandleData.FILE_DIR, `${this._currentfile}.csv`);
     }
 
     async writeData(data) {
         let filehandle;
 
         try {
-            filehandle = fs.appendFile(this._filepath, data, 'utf8')
+            filehandle = await fs.appendFile(this._filepath, data, 'utf8')
         } catch (err) {
             console.log(`error writing to file: ${err}`)
         } finally {
@@ -29,7 +29,7 @@ class HandleData {
 
         try {
             this._currentfile = datetime.getHourForUTCDate()
-            filedata = fs.readFile(this._filepath, 'utf8')
+            filedata = await fs.readFile(this._filepath, 'utf8')
             console(filedata)
             // compress data
             // send upstream
