@@ -3,20 +3,22 @@ const path = require('path')
 const compress = require('../util/compress-data')
 const datetime = require('../util/date-time')
 
+const AwsIotModule = require('../modules/awsiot')
+const awsIot = new AwsIotModule()
 class HandleData {
 
     static FILE_DIR = path.join(__dirname, '../data')
 
     constructor() {
-        this._currentfile = datetime.getHourForUTCDate()
-        this._filepath = path.join(HandleData.FILE_DIR, this._currentfile);
+        this._currentfile = `${datetime.getHourForUTCDate()}.csv`
+        this._currentfilepath = path.join(HandleData.FILE_DIR, this._currentfile)
     }
 
     async writeData(data) {
         let filehandle;
 
         try {
-            filehandle = await fs.appendFile(this._filepath, `${data}\n`, 'utf8')
+            filehandle = await fs.appendFile(this._currentfilepath, `${data}\n`, 'utf8')
         } catch (err) {
             console.log(`error writing to file: ${err}`)
         } finally {
@@ -27,25 +29,29 @@ class HandleData {
 
     async uploadData() {
         let filedata;
+        this._currentfile = `${datetime.getHourForUTCDate()}.csv`
+        this._currentfilepath = path.join(HandleData.FILE_DIR, this._currentfile)
 
         try {
-            this._currentfile = datetime.getHourForUTCDate()
             let files = await fs.readdir(HandleData.FILE_DIR)
-            files.forEach(async (file) => {
 
-                if (!file.includes(this._currentfile)) {
+            files.forEach(async (file) => {
+                if (!this._currentfilepath.includes(file)) {
+
                     let filepath = path.join(HandleData.FILE_DIR, file);
                     filedata = await fs.readFile(filepath, 'utf8')
-                    console.log('file -- ', filepath)
-                    console.log('cur file -- ', this._filepath)
-                    compress.compress(filedata)
+
+                    let compresseddata = await compress.compress(filedata)
+
+                    awsIot.publishMessage('store/batch/deviceid', JSON.stringify(compresseddata))
+                    await fs.unlink(filepath)
                 }
             })
 
-            // send upstream
-            // delete file
+            console.log(`---upload to upstream complete`)
+
         } catch (err) {
-            console.log(`error uploading data to upstream: ${err}`)
+            console.error(`error uploading data to upstream: ${err}`)
         }
     }
 }

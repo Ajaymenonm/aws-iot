@@ -51,7 +51,7 @@ async function main() {
     // const interval = Math.floor(Math.random() * (5 - 1) + 1)
     initializeConnections()
     setInterval(() => sendStreamData(), 5000)
-    setInterval(() => handleData.uploadData(), 7000)
+    setInterval(() => handleData.uploadData(), 13000)
 }
 
 module.exports.sendOndemandData = sendOndemandData;

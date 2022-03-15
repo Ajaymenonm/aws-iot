@@ -38,7 +38,7 @@ class AwsIotModule {
 
     publishMessage(topic, payload) {
         //  TODO: refactor topic nomenclature
-        device.publish(topic, JSON.stringify({ getOnDemandData: payload }), { qos: 1 });
+        device.publish(topic, payload, { qos: 1 });
     }
 
     receiveMessage(topic, payload) {
