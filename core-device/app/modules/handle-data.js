@@ -31,6 +31,9 @@ class HandleData {
             this._currentfile = datetime.getHourForUTCDate()
             filedata = fs.readFile(this._filepath, 'utf8')
             console(filedata)
+            // compress data
+            // send upstream
+            // delete file
         } catch (err) {
             console.log(`error uploading data to upstream: ${err}`)
         }

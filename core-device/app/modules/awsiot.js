@@ -33,6 +33,7 @@ class AwsIotModule {
     _subscription() {
         // Subscribing to topics
         device.subscribe(constants.TOPICS.ONDEMAND);
+        device.subscribe(constants.TOPICS.ESP8266);
     }
 
     publishMessage(topic, payload) {
@@ -51,9 +52,13 @@ class AwsIotModule {
 }
 
 const handleMessage = async (topic, payload) => {
+
     if (topic == constants.TOPICS.ONDEMAND && payload.messageType == 'request') {
-        console.log('--- on demand message request received')
-        await main.sendOndemandData(payload)
+        main.sendOndemandData(payload)
+    }
+
+    if (topic == constants.TOPICS.ESP8266 && payload.messageType == 'response') {
+        main.gatherSensorData(payload)
     }
 }
 

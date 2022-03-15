@@ -12,7 +12,7 @@ class SensorModule {
     init() {
         try {
             // sen = dhtsensor.initialize(this._type, this._port);
-            console.log(`initialized sensor: ${sen}`)
+            // console.log(`initialized sensor: ${sen}`)
         } catch (err) {
             console.error(`error initializing sensor connection: ${err}`)
         }

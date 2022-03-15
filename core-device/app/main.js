@@ -12,31 +12,34 @@ const initializeConnections = () => {
     sensor.init()
 }
 
-const sendOndemandData = async (payload) => {
+const gatherSensorData = async (espdata = {}) => {
     [temp, humidity] = await sensor.readData()
-    // get data from esp8266
+    // get data as a param from message handler
     // aggregate and format message
     data = {
         "messageType": "response",
         "deviceId": "deviceId",
         "dht22": temp,
-        "temp": humidity
+        "temp": humidity,
+        "level": 'level'
     }
-    awsIot.publishMessage(constants.TOPICS.ONDEMAND, data)
+    return JSON.stringify(data)
+}
+
+const sendOndemandData = async (payload) => {
+    console.log('--- on demand data requested ---')
+    awsIot.publishMessage(constants.TOPICS.ESP8266, JSON.stringify({ 'request-data': true }))
+    sensordata = await gatherSensorData()
+    awsIot.publishMessage(constants.TOPICS.ONDEMAND, sensordata)
+    // write to file
 }
 
 // stream data to upstream
 const sendStreamData = async () => {
-    [temp, humidity] = await sensor.readData()
-    // get data from esp8266
-    // aggregate and format message
-    data = {
-        "messageType": "response",
-        "deviceId": "deviceId",
-        "dht22": temp,
-        "temp": humidity
-    }
-    awsIot.publishMessage(constants.TOPICS.STREAM, data)
+    awsIot.publishMessage(constants.TOPICS.ESP8266, JSON.stringify({ 'request-data': true }))
+    sensordata = await gatherSensorData()
+    awsIot.publishMessage(constants.TOPICS.STREAM, sensordata)
+    // write to file
 }
 
 async function main() {
@@ -50,5 +53,6 @@ async function main() {
 }
 
 module.exports.sendOndemandData = sendOndemandData;
+module.exports.gatherSensorData = gatherSensorData;
 
 main().catch(console.error)
