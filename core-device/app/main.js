@@ -23,17 +23,26 @@ const sendOndemandData = async (payload) => {
     awsIot.publishMessage(constants.TOPICS.ONDEMAND, data)
 }
 
+const sendStreamData = async () => {
+    [temp, humidity] = await sensor.readData()
+    // get data from esp8266
+    // aggregate and format message
+    data = {
+        "messageType": "response",
+        "deviceId": "deviceId",
+        "dht22": temp,
+        "temp": humidity
+    }
+    awsIot.publishMessage(constants.TOPICS.STREAM, data)
+}
+
 async function main() {
     console.log(`********************Starting Core Device App********************`)
 
     // random upload time to avoid bandwidth spike
     // const interval = Math.floor(Math.random() * (5 - 1) + 1)
     initializeConnections()
-    setInterval(async () => {
-        let sensordata = await sensor.readData()
-        let aws = awsIot.publishMessage(constants.TOPICS.STREAM, sensordata)
-        console.log('--------aws: ', aws)
-    }, 5000)
+    setInterval(() => sendStreamData(), 5000)
 
 }
 
