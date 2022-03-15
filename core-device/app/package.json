@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "aws-iot-device-sdk": "^2.2.11",
+    "moment-timezone": "^0.5.34",
     "node-dht-sensor": "^0.4.3"
   }
 }

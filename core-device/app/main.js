@@ -4,6 +4,8 @@ const AwsIotModule = require('./modules/awsiot')
 const awsIot = new AwsIotModule()
 const SensorModule = require('./modules/sensor')
 const sensor = new SensorModule()
+const HandleData = require('./modules/handle-data')
+const handleData = new HandleData()
 
 const initializeConnections = () => {
     awsIot.init()
@@ -23,6 +25,7 @@ const sendOndemandData = async (payload) => {
     awsIot.publishMessage(constants.TOPICS.ONDEMAND, data)
 }
 
+// stream data to upstream
 const sendStreamData = async () => {
     [temp, humidity] = await sensor.readData()
     // get data from esp8266
