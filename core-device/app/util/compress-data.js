@@ -13,7 +13,6 @@ const compress = (data) => {
                 console.error(`error while compressing data: [${data}]. hence returning uncompressed data`);
                 resolve(data);
             } else {
-                console.log(`data compressed successfully`);
                 resolve(compresseddata.toString("base64"));
             }
         })

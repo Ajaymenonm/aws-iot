@@ -7,46 +7,49 @@ const SensorModule = require('./modules/sensor')
 const sensor = new SensorModule()
 const HandleData = require('./modules/handle-data')
 const handleData = new HandleData()
-const MqttModule = require('../app/modules/mqtt')
+const MqttModule = require('./modules/mqtt')
 const mqtt = new MqttModule()
 
 const initializeConnections = () => {
     awsIot.init()
     sensor.init()
+    mqtt.init()
 }
 
-const gatherSensorData = async (espdata = {}) => {
+const aggregateSensorData = async (espData) => {
     [temp, humidity] = await sensor.readData()
-    // get data as a param from message handler
-    // aggregate and format message
     data = {
         "messageType": "response",
+        "requestType": espData.requestType,
         "deviceId": "deviceId",
         "humidity": humidity,
         "temp": temp,
-        "level": 10,
+        "level": espData.level,
         "ts": datetime.getUTCDateTime().toString()
     }
-    return JSON.stringify(data)
+
+    if (espData.requestType == 'ondemand') {
+        sendOndemandData(data)
+    } else if (espData.requestType == 'stream') {
+        sendStreamData(data)
+    }
 }
 
-const requestData = async () => {
-    // mqtt.publishMessage(constants.TOPICS.ESP8266_REQ, JSON.stringify({ 'request-data': true }))
-    const sensordata = await gatherSensorData()
-    handleData.writeData(sensordata)
-    return sensordata
-}
-
-const sendOndemandData = async () => {
-    console.log('--- on demand data requested ---')
-    let telemetry = await requestData()
-    awsIot.publishMessage(constants.TOPICS.ONDEMAND, telemetry)
+// send data on demand request
+const sendOndemandData = async (data) => {
+    awsIot.publishMessage(constants.TOPICS.ONDEMAND, JSON.stringify(data))
+    handleData.writeData(data)
 }
 
 // stream data to upstream
-const sendStreamData = async () => {
-    let telemetry = await requestData()
-    awsIot.publishMessage(constants.TOPICS.STREAM, telemetry)
+const sendStreamData = async (data) => {
+    awsIot.publishMessage(constants.TOPICS.STREAM, JSON.stringify(data))
+    handleData.writeData(data)
+}
+
+// request ondemand / stream data from esp8266
+const requestEspData = (payload) => {
+    mqtt.publishMessage(constants.TOPICS.ESP8266_REQ, JSON.stringify(payload))
 }
 
 async function main() {
@@ -55,11 +58,11 @@ async function main() {
     // random upload time to avoid bandwidth spike
     // const interval = Math.floor(Math.random() * (5 - 1) + 1)
     initializeConnections()
-    setInterval(() => sendStreamData(), 5000)
+    setInterval(() => requestEspData({ requestType: 'stream' }), 5000)
     setInterval(() => handleData.uploadData(), 13000)
 }
 
-module.exports.sendOndemandData = sendOndemandData;
-module.exports.gatherSensorData = gatherSensorData;
+module.exports.requestEspData = requestEspData;
+module.exports.aggregateSensorData = aggregateSensorData;
 
 main().catch(console.error)

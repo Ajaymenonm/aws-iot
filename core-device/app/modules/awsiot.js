@@ -33,7 +33,6 @@ class AwsIotModule {
         // Subscribing to topics
         console.log('...connected to AWS  IoT Core');
         device.subscribe(constants.TOPICS.ONDEMAND);
-        device.subscribe(constants.TOPICS.ESP8266_RES);
     }
 
     publishMessage(topic, payload) {
@@ -53,12 +52,10 @@ class AwsIotModule {
 
 const handleMessage = async (topic, payload) => {
 
-    if (topic == constants.TOPICS.ONDEMAND && payload.messageType == 'request') {
-        main.sendOndemandData(payload)
-    }
-
-    if (topic == constants.TOPICS.ESP8266 && payload.messageType == 'response') {
-        main.gatherSensorData(payload)
+    if (topic == constants.TOPICS.ONDEMAND && payload.messageType == 'req') { // TODO: when topic is changed, see if messageType is needed?
+        console.log('--- on demand data requested ---')
+        payload.requestType = 'ondemand' // TODO: add his from webserver request
+        main.requestEspData(payload)
     }
 }
 

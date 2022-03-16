@@ -8,9 +8,7 @@ class MqttModule {
 
     async init() {
         try {
-            console.log('...Connecting to RPi Mqtt broker');
-            // client = mqtt.connect('mqtt://192.168.1.157', { clientId: 'esp8266' })
-            client = mqtt.connect('mqtt://test.mosquitto.org')
+            client = mqtt.connect('mqtt://192.168.0.25', { clientId: 'esp8266' })
             client.on('connect', this._subscription)
             client.on('message', this.receiveMessage)
             client.on('error', this._errorEvent)
@@ -21,18 +19,18 @@ class MqttModule {
 
     _subscription() {
         // Subscribing to topics
-        console.log('---connected to mqtt broker');
+        console.log('...connected to rpi mqtt broker');
         client.subscribe('store/level/deviceid/res');
     }
 
     publishMessage(topic, payload) {
         //  TODO: refactor topic nomenclature
-        client.publish('store/level/deviceid/req', payload, { qos: 1 });
+        client.publish(topic, payload, { qos: 1 });
     }
 
     receiveMessage(topic, payload) {
         payload = JSON.parse(payload.toString())
-        main.gatherSensorData(payload)
+        main.aggregateSensorData(payload)
     }
 
     _errorEvent() {
