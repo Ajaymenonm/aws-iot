@@ -43,7 +43,12 @@ class HandleData {
 
                     let compresseddata = await compress.compress(filedata)
 
-                    awsIot.publishMessage('store/batch/deviceid', JSON.stringify(compresseddata))
+                    let telemetry = {
+                        compresseddata,
+                        file
+                    }
+
+                    awsIot.publishMessage('store/batch/deviceid', JSON.stringify(telemetry))
                     await fs.unlink(filepath)
                 }
             })
