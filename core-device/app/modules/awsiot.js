@@ -18,13 +18,12 @@ class AwsIotModule {
 
     async init() {
         try {
-            console.log('...Connecting to AWS  IoT Core');
             device = await awsiot.device({
                 ...AwsIotModule.AUTH_CRED
             })
             device.on('connect', this._subscription)
             device.on('message', this.receiveMessage)
-            device.on('error', this.receiveMessage)
+            device.on('error', this._errorEvent)
         } catch (err) {
             console.error(`error connecting to aws iot: ${err}`)
         }
@@ -32,8 +31,9 @@ class AwsIotModule {
 
     _subscription() {
         // Subscribing to topics
+        console.log('...connected to AWS  IoT Core');
         device.subscribe(constants.TOPICS.ONDEMAND);
-        device.subscribe(constants.TOPICS.ESP8266);
+        device.subscribe(constants.TOPICS.ESP8266_RES);
     }
 
     publishMessage(topic, payload) {

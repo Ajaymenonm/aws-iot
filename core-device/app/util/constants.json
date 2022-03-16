@@ -8,7 +8,8 @@
             "ONDEMAND": "store/ondemand/deviceid",
             "STREAM": "store/stream/deviceid",
             "BATCH": "store/batch/deviceid",
-            "ESP8266": "store/esp8266/deviceid"
+            "ESP8266_REQ": "store/level/deviceid/req",
+            "ESP8266_RES": "store/level/deviceid/res"
         }
     }
 }

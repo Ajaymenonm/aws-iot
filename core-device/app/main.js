@@ -7,6 +7,8 @@ const SensorModule = require('./modules/sensor')
 const sensor = new SensorModule()
 const HandleData = require('./modules/handle-data')
 const handleData = new HandleData()
+const MqttModule = require('../app/modules/mqtt')
+const mqtt = new MqttModule()
 
 const initializeConnections = () => {
     awsIot.init()
@@ -28,20 +30,23 @@ const gatherSensorData = async (espdata = {}) => {
     return JSON.stringify(data)
 }
 
-const sendOndemandData = async (payload) => {
-    console.log('--- on demand data requested ---')
-    awsIot.publishMessage(constants.TOPICS.ESP8266, JSON.stringify({ 'request-data': true }))
-    sensordata = await gatherSensorData()
-    awsIot.publishMessage(constants.TOPICS.ONDEMAND, sensordata)
+const requestData = async () => {
+    // mqtt.publishMessage(constants.TOPICS.ESP8266_REQ, JSON.stringify({ 'request-data': true }))
+    const sensordata = await gatherSensorData()
+    handleData.writeData(sensordata)
+    return sensordata
+}
 
+const sendOndemandData = async () => {
+    console.log('--- on demand data requested ---')
+    let telemetry = await requestData()
+    awsIot.publishMessage(constants.TOPICS.ONDEMAND, telemetry)
 }
 
 // stream data to upstream
 const sendStreamData = async () => {
-    awsIot.publishMessage(constants.TOPICS.ESP8266, JSON.stringify({ 'request-data': true }))
-    sensordata = await gatherSensorData()
-    awsIot.publishMessage(constants.TOPICS.STREAM, sensordata)
-    handleData.writeData(sensordata)
+    let telemetry = await requestData()
+    awsIot.publishMessage(constants.TOPICS.STREAM, telemetry)
 }
 
 async function main() {
