@@ -14,7 +14,7 @@ const compress = (data) => {
                 resolve(data);
             } else {
                 console.log(`data compressed successfully`);
-                resolve(compresseddata);
+                resolve(compresseddata.toString("base64"));
             }
         })
     })
