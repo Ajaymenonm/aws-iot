@@ -38,7 +38,7 @@ const decompressMessage = async (encodedData) => {
             decompressedmessage = decompressedmessageraw.toString('utf8');
             console.log(`decompressed message: ${decompressedmessage}`);
             console.log(`decompression successful`);
-            return decompressedmessagern
+            return decompressedmessage
         }
     } catch (err) {
         console.error(`error decompressing message: ${err}`);
