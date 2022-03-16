@@ -45,7 +45,8 @@ class HandleData {
 
                     let telemetry = {
                         compresseddata,
-                        file
+                        file,
+                        "deviceid": "deviceid"
                     }
 
                     awsIot.publishMessage('store/batch/deviceid', JSON.stringify(telemetry))
