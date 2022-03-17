@@ -5,7 +5,8 @@
     },
     "PUB_SUB": {
         "TOPICS": {
-            "ONDEMAND": "store/ondemand/deviceid",
+            "ONDEMAND_REQ": "store/ondemand/deviceid/req",
+            "ONDEMAND_RES": "store/ondemand/deviceid/res",
             "STREAM": "store/stream/deviceid",
             "BATCH": "store/batch/deviceid",
             "ESP8266_REQ": "store/level/deviceid/req",

@@ -8,7 +8,7 @@ class MqttModule {
 
     async init() {
         try {
-            client = mqtt.connect('mqtt://192.168.0.25', { clientId: 'esp8266' })
+            client = mqtt.connect('mqtt://192.168.0.25', { clientId: 'temp-humidity' })
             client.on('connect', this._subscription)
             client.on('message', this.receiveMessage)
             client.on('error', this._errorEvent)

@@ -52,7 +52,7 @@ class AwsIotModule {
 
 const handleMessage = async (topic, payload) => {
 
-    if (topic == constants.TOPICS.ONDEMAND && payload.messageType == 'req') { // TODO: when topic is changed, see if messageType is needed?
+    if (topic == constants.TOPICS.ONDEMAND_REQ) {
         console.log('--- on demand data requested ---')
         payload.requestType = 'ondemand' // TODO: add his from webserver request
         main.requestEspData(payload)

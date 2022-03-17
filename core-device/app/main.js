@@ -37,9 +37,9 @@ const aggregateSensorData = async (espData) => {
     }
 }
 
-// send data on demand request
+// send data on demand request to upstream
 const sendOndemandData = async (data) => {
-    awsIot.publishMessage(constants.TOPICS.ONDEMAND, JSON.stringify(data))
+    awsIot.publishMessage(constants.TOPICS.ONDEMAND_RES, JSON.stringify(data))
     handleData.writeData(data)
 }
 
@@ -57,10 +57,9 @@ const requestEspData = (payload) => {
 async function main() {
     console.log(`********************Starting Core Device App********************`)
 
-    // random upload time to avoid bandwidth spike
-    // const interval = Math.floor(Math.random() * (5 - 1) + 1)
     initializeConnections()
     setInterval(() => requestEspData({ requestType: 'stream' }), 5000)
+    // random upload time to avoid bandwidth spike
     setInterval(() => handleData.uploadData(), 13000)
 }
 
