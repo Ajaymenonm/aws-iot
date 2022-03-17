@@ -36,7 +36,6 @@ class AwsIotModule {
     }
 
     publishMessage(topic, payload) {
-        //  TODO: refactor topic nomenclature
         device.publish(topic, payload, { qos: 1 });
     }
 

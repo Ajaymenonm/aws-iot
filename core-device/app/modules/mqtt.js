@@ -24,7 +24,6 @@ class MqttModule {
     }
 
     publishMessage(topic, payload) {
-        //  TODO: refactor topic nomenclature
         client.publish(topic, payload, { qos: 1 });
     }
 

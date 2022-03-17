@@ -22,7 +22,6 @@ class SensorModule {
             const res = await dhtsensor.read(this._type, this._port);
             let temp = res.temperature.toFixed(1);
             let humidity = res.humidity.toFixed(1);
-            // console.log(`Temp: ${temp}, Humidity: ${humidity}`)
             return [temp, humidity]
         } catch (err) {
             console.error(`Failed to read sensor data: ${err}`)
