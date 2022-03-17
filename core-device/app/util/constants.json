@@ -1,0 +1,16 @@
+{
+    "SENSOR": {
+        "TYPE": 22,
+        "PORT": 4
+    },
+    "PUB_SUB": {
+        "TOPICS": {
+            "ONDEMAND_REQ": "store/ondemand/deviceid/req",
+            "ONDEMAND_RES": "store/ondemand/deviceid/res",
+            "STREAM": "store/stream/deviceid",
+            "BATCH": "store/batch/deviceid",
+            "ESP8266_REQ": "store/level/deviceid/req",
+            "ESP8266_RES": "store/level/deviceid/res"
+        }
+    }
+}
