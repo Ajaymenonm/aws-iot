@@ -28,6 +28,8 @@ const aggregateSensorData = async (espData) => {
         "ts": datetime.getUTCDateTime().toString()
     }
 
+    console.log(`temp: ${temp}, humidity: ${humidity}, level: ${level}`)
+
     if (espData.requestType == 'ondemand') {
         sendOndemandData(data)
     } else if (espData.requestType == 'stream') {
