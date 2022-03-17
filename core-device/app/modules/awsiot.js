@@ -32,7 +32,7 @@ class AwsIotModule {
     _subscription() {
         // Subscribing to topics
         console.log('...connected to AWS  IoT Core');
-        device.subscribe(constants.TOPICS.ONDEMAND);
+        device.subscribe(constants.TOPICS.ONDEMAND_REQ);
     }
 
     publishMessage(topic, payload) {
