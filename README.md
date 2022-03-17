@@ -33,7 +33,7 @@ This component performs the following actions:
     - Acts as a gateway device and connects to other node devices locally.
     - Run edge workload like collecting sensor data, local data storage, stream / batch telemetry to cloud among others.
     - DHT22 is connected to RPi as shown below in the image. It collects temperature and humidity data and does serial communication with RPi.
-    - Runs a ([Mosquitto](https://mosquitto.org/)) MQTT broker as a demon service.
+    - Runs a [(Mosquitto)](https://mosquitto.org/) MQTT broker as a demon service.
     - Connects to node device (esp8266) via mqtt to gather data.
 
 <img src="https://lucid.app/publicSegments/view/37576343-a007-405b-accb-14baa4d749d5/image.png" alt="RPi Wiring" width="1000"/>
@@ -84,5 +84,5 @@ This component performs the following actions:
         | humidity | N/A | String | No |
         | temp | N/A | String | No |
         | level | N/A | Float | No |
-        
+
 
