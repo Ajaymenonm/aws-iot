@@ -39,19 +39,19 @@ const aggregateSensorData = async (espData) => {
     console.log(`----------temp: ${temp}, humidity: ${humidity}, level: ${espData.level}`)
 
     if (espData.requestType == 'ondemand') {
-        sendOndemandData(data)
+        sendOndemandData(JSON.stringify(data))
     } else if (espData.requestType == 'stream') {
-        sendStreamData(data)
+        sendStreamData(JSON.stringify(data))
     }
 }
 
 const sendOndemandData = async (data) => {
-    awsIot.publishMessage(constants.TOPICS.ONDEMAND_RES, JSON.stringify(data))
+    awsIot.publishMessage(constants.TOPICS.ONDEMAND_RES, data)
     handleData.writeData(data)
 }
 
 const sendStreamData = async (data) => {
-    awsIot.publishMessage(constants.TOPICS.STREAM, JSON.stringify(data))
+    awsIot.publishMessage(constants.TOPICS.STREAM, data)
     handleData.writeData(data)
 }
 
