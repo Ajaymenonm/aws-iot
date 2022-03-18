@@ -177,7 +177,7 @@ This component performs the following actions:
 
     The below diagram represents how various rules are triggered based on data:
 
-    <img src="https://lucid.app/publicSegments/view/62c1f96b-b4dc-41db-b3f6-c3c30eb996f9/image.png" alt="Rules and Alerts" width="1000"/>
+    <img src="https://lucid.app/publicSegments/view/b483381e-7022-47d5-8413-c5b122aad197/image.jpeg" alt="Rules and Alerts" width="1000"/>
 
     <br>
 
