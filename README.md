@@ -28,7 +28,9 @@ The high level architecture of the application is shown in the image below.
 ### Edge
 
 1. [Raspberry Pi](https://en.wikipedia.org/wiki/Raspberry_Pi) + [DHT22](https://www.adafruit.com/product/385)
+
 <br>
+
 This component performs the following actions:
     - Connects to AWS IoT to communicate to and from the cloud.
     - Acts as a gateway device and connects to other node devices locally.
