@@ -29,9 +29,7 @@ The high level architecture of the application is shown in the image below.
 
 1. [Raspberry Pi](https://en.wikipedia.org/wiki/Raspberry_Pi) + [DHT22](https://www.adafruit.com/product/385)
 
-<br>
-
-This component performs the following actions:
+    This component performs the following actions:
     - Connects to AWS IoT to communicate to and from the cloud.
     - Acts as a gateway device and connects to other node devices locally.
     - Run edge workload like collecting sensor data, local data storage, stream / batch telemetry to cloud among others.
@@ -45,8 +43,8 @@ This component performs the following actions:
 <br>
 
 2. [ESP8266 NodeMcu](https://en.wikipedia.org/wiki/ESP8266) + [Ultrasonic Level Sensor](https://www.sparkfun.com/products/15569)
-<br>
-This component performs the following actions:
+
+    This component performs the following actions:
     - Connects locally to RPi via MQTT
     - Collects liquid level data
 
