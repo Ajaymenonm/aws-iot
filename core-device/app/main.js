@@ -1,5 +1,5 @@
-const constants = require('./util/constants.json').PUB_SUB
 const datetime = require('./util/date-time')
+const constants = require('./util/constants.json').PUB_SUB
 
 const AwsIotModule = require('./modules/awsiot')
 const awsIot = new AwsIotModule()
@@ -10,12 +10,20 @@ const handleData = new HandleData()
 const MqttModule = require('./modules/mqtt')
 const mqtt = new MqttModule()
 
+
 const initializeConnections = () => {
     awsIot.init()
     sensor.init()
     mqtt.init()
 }
 
+/**
+ * Aggregates and return sensor data
+ * @param {object} espData Published data from esp
+ * @param {string} temp Temp returned from dht22
+ * @param {string} humidity Humidity returned from dht22
+ * @return {object} Return a telemetry object
+ */
 const aggregateSensorData = async (espData) => {
     [temp, humidity] = await sensor.readData()
     data = {
@@ -37,29 +45,31 @@ const aggregateSensorData = async (espData) => {
     }
 }
 
-// send data on demand request to upstream
 const sendOndemandData = async (data) => {
     awsIot.publishMessage(constants.TOPICS.ONDEMAND_RES, JSON.stringify(data))
     handleData.writeData(data)
 }
 
-// stream data to upstream
 const sendStreamData = async (data) => {
     awsIot.publishMessage(constants.TOPICS.STREAM, JSON.stringify(data))
     handleData.writeData(data)
 }
 
-// request ondemand / stream data from esp8266
+/**
+ * request ondemand / stream data from esp8266
+ * @param {object} payload contains payload.requestType: stream/on-demand
+ */
 const requestEspData = (payload) => {
     mqtt.publishMessage(constants.TOPICS.ESP8266_REQ, JSON.stringify(payload))
 }
+
 
 async function main() {
     console.log(`********************Starting Core Device App********************`)
 
     initializeConnections()
     setInterval(() => requestEspData({ requestType: 'stream' }), 5000)
-    // random upload time to avoid bandwidth spike
+    //TODO: randomize upload time to avoid bandwidth spike
     setInterval(() => handleData.uploadData(), 13000)
 }
 

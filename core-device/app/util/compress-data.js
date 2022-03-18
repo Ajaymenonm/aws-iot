@@ -1,7 +1,12 @@
 const zlib = require('zlib');
 
-// encode the buffer in base 64. UTF8 will not work.
 
+/**
+ * Compress data and return base64 string
+ * encode the buffer in base 64. UTF8 will not work
+ * @param {object} data data from file
+ * @return {string} base64 encoded string
+ */
 const compress = (data) => {
     return new Promise((resolve) => {
         zlib.brotliCompress(data, {

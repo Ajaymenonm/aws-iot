@@ -1,12 +1,14 @@
 const dhtsensor = require('node-dht-sensor').promises;
 
+const constants = require('../util/constants.json')
+
 let sen = null
 
 class SensorModule {
 
     constructor() {
-        this._type = 22
-        this._port = 4
+        this._type = constants.SENSOR.TYPE
+        this._port = constants.SENSOR.PORT
     }
 
     init() {
