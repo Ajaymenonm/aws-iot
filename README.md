@@ -134,7 +134,7 @@ The high level architecture of the application is shown in the image below.
         | ONDEMAND_RES | `store/ondemand/deviceid/res` | Send data from device to web server on demand | AWS IoT |
         | ESP8266_REQ | `store/level/deviceid/req` | RPi requesting data from esp | Mosquitto MQTT |
         | ESP8266_RES | `store/level/deviceid/res` | Esp responding with data to RPi | Mosquitto MQTT |
-        | ALERT | `store/alert/deviceid`| IoT rule publish alert | AWS IoT|
+        | ALERT | `store/alerts/deviceid`| IoT rule publish alert | AWS IoT|
 
 
 3. Telemetry

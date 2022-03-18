@@ -36,7 +36,7 @@ const aggregateSensorData = async (espData) => {
         "ts": datetime.getUTCDateTime().toString()
     }
 
-    console.log(`----------temp: ${temp}, humidity: ${humidity}, level: ${espData.level}`)
+    console.log(`----------temp: ${temp}, humidity: ${humidity}, level: ${espData.level} \n`)
 
     if (espData.requestType == 'ondemand') {
         sendOndemandData(JSON.stringify(data))
@@ -68,9 +68,9 @@ async function main() {
     console.log(`********************Starting Core Device App********************`)
 
     initializeConnections()
-    setInterval(() => requestEspData({ requestType: 'stream' }), 5000)
+    setInterval(() => requestEspData({ requestType: 'stream' }), 8000)
     //TODO: randomize upload time to avoid bandwidth spike
-    setInterval(() => handleData.uploadData(), 13000)
+    setInterval(() => handleData.uploadData(), 15000)
 }
 
 module.exports.requestEspData = requestEspData;
