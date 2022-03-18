@@ -100,8 +100,9 @@ This component performs the following actions:
 
     Raspberri pi is connected to dht22 sensor via gpio ports and communicates serially. This sensor collects temperature and humidity data. 
 
+    | Data | Unit |
+    |------|------|
     | Temperature | °C |
-    |-------------|----|
     | Humidity| RH|
 
 2. Connectivity
@@ -144,23 +145,21 @@ This component performs the following actions:
     
     <br>
 
-    On Demand request:
-    
+    #### On Demand request:
     The below sequence diagram demonstrates how an on-demand request is received, data is gathered and sent back. 
 
     <img src="https://lucid.app/publicSegments/view/3533a7b4-4682-4229-a615-9f1ece412fb8/image.png" alt="On-demand request" width="1000"/> 
 
     <br>
 
-    Interval:
-
+    #### Interval:
     RPi also collects data at 5s interval as shown below.
     
     <img src="https://lucid.app/publicSegments/view/61375c18-d71b-42e5-9c55-31ff04572832/image.png" alt="Interval request" width="1000"/> 
 
      <br>
 
-    There is a sample data written in a file
+    Here is a sample data written in a file
 
     ```
        {
