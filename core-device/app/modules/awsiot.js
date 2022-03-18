@@ -5,6 +5,16 @@ const constants = require('../util/constants.json').PUB_SUB
 
 let device;
 
+/**
+ * Perform aws iot - mqtt related operations
+ * @name AWSIoTModule.publishMessage
+    * @param {string} topic topic where to publish message
+    * @param {object} payload payload to publish
+
+* @name AWSIoTModule.receiveMessage
+    * @param {string} topic topic message received
+    * @param {object} payload payload received
+ */
 class AwsIotModule {
 
     static AUTH_CRED = {

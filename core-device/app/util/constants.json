@@ -12,5 +12,6 @@
             "ESP8266_REQ": "store/level/deviceid/req",
             "ESP8266_RES": "store/level/deviceid/res"
         }
-    }
+    },
+    "MQTT_IP": "192.168.0.25"
 }

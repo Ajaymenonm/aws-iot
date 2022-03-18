@@ -1,10 +1,19 @@
-const fs = require('fs').promises;
 const path = require('path')
-const compress = require('../util/compress-data')
+const fs = require('fs').promises;
+
 const datetime = require('../util/date-time')
+const compress = require('../util/compress-data')
+const constants = require('../util/constants.json').PUB_SUB
 
 const AwsIotModule = require('../modules/awsiot')
 const awsIot = new AwsIotModule()
+
+
+/**
+ * Handle data operations
+ * @name HandleData.writeData
+ * @param {object} data aggregated sensor data
+ */
 class HandleData {
 
     static FILE_DIR = path.join(__dirname, '../data')
@@ -36,7 +45,7 @@ class HandleData {
             let files = await fs.readdir(HandleData.FILE_DIR)
 
             files.forEach(async (file) => {
-                if (!this._currentfilepath.includes(file)) {
+                if (!this._currentfilepath.includes(file)) {                //ignore current file
 
                     let filepath = path.join(HandleData.FILE_DIR, file);
                     filedata = await fs.readFile(filepath, 'utf8')
@@ -49,7 +58,7 @@ class HandleData {
                         "deviceid": "deviceid"
                     }
 
-                    awsIot.publishMessage('store/batch/deviceid', JSON.stringify(telemetry))
+                    awsIot.publishMessage(constants.TOPICS.BATCH, JSON.stringify(telemetry))
                     await fs.unlink(filepath)
                 }
             })
@@ -61,6 +70,5 @@ class HandleData {
         }
     }
 }
-
 
 module.exports = HandleData
