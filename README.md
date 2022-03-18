@@ -148,14 +148,14 @@ This component performs the following actions:
     #### On Demand request:
     The below sequence diagram demonstrates how an on-demand request is received, data is gathered and sent back. 
 
-    <img src="https://lucid.app/publicSegments/view/3533a7b4-4682-4229-a615-9f1ece412fb8/image.png" alt="On-demand request" width="1000"/> 
+    <img src="https://lucid.app/publicSegments/view/8742f751-9de8-46e6-b11e-4d04ab26a8f4/image.jpeg" alt="On-demand request" width="1000"/> 
 
     <br>
 
     #### Interval:
     RPi also collects data at 5s interval as shown below.
     
-    <img src="https://lucid.app/publicSegments/view/61375c18-d71b-42e5-9c55-31ff04572832/image.png" alt="Interval request" width="1000"/> 
+    <img src="https://lucid.app/publicSegments/view/bb3dd373-fe59-4edd-9c57-c0a008b4a65b/image.jpeg" alt="Interval request" width="1000"/> 
 
      <br>
 
