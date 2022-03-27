@@ -1,4 +1,4 @@
-# Food Parameter Tracker
+# Food Storage Parameter Tracker
 
 An IoT application that monitors parameters that are crucial in keeping food safe at places like fast food joints. 
 
